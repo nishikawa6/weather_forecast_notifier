@@ -1,0 +1,4 @@
+.env
+.env.develop
+
+src/__pycache__
