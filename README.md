@@ -14,7 +14,7 @@
   - レスポンスの"text"の値を取り出す。
 - Line Notifyで通知を送信する機能
 
-# 各機能の依存関係
+# 依存関係
 ```mermaid
 classDiagram 
 
