@@ -16,12 +16,16 @@
 
 # 各機能の依存関係
 ```mermaid
-classDiagram
+classDiagram 
 
 namespace Entity {
-  class iNotifier
-  class ForecastData
-  class iWeatherForecaster
+  class iNotifier {
+    execute(notification_message)
+  }
+  class ForecastData 
+  class iWeatherForecaster {
+    execute()
+  }
 }
 
 <<interface>> iNotifier
@@ -30,9 +34,17 @@ namespace Entity {
 
 namespace UseCase {
   class InputData
-  class iWeatherForecastAdapter
-  class WeatherForecastUsecase
-  class iNotificationAdapter
+  class iWeatherForecastAdapter {
+    execute(raw_input_data) : InputData
+  }
+  class WeatherForecastUsecase {
+    get_and_notify_weather_forecast()
+    input_data2forecast_data(inputdata: InputData): ForecastData
+    forecast_data2output_data(forecast_data: ForecastData): OutputData
+  }
+  class iNotificationAdapter {
+    execute(forecast_data: OutputData)
+  }
   class OutputData
 }
 
@@ -59,12 +71,12 @@ namespace Infrastructure {
 
 
 %% Entity の継承関係
-iNotifier --|> LineNotify
-iWeatherForecaster --|> WeatherForecastFromJapanMeteorologicalAgency
+LineNotify --|> iNotifier 
+WeatherForecastFromJapanMeteorologicalAgency --|> iWeatherForecaster 
 
 %% Interface Adapter の継承関係
-iWeatherForecastAdapter --|> WeatherForecastFromJapanMeteorologicalAgencyAdapter
-iNotificationAdapter --|> LineNotifyAdapter
+WeatherForecastFromJapanMeteorologicalAgencyAdapter --|> iWeatherForecastAdapter 
+LineNotifyAdapter --|> iNotificationAdapter 
 
 
 
