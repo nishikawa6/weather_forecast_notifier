@@ -2,19 +2,26 @@ from entity import *
 from usecase import *
 from interface_adapter import *
 from infrastructure import *
+from injector import Injector
+
+class Dependency:
+    def __init__(self) -> None:
+        self.injector = Injector(self.__class__.config)
+    
+    @classmethod
+    def config(cls, binder):
+        binder.bind(iNotifier, LineNotify)
+        binder.bind(iWeatherForecaster, WeatherForecastFromJapanMeteorologicalAgency)
+       
+        binder.bind(iNotificationAdapter, LineNotifyAdapter)
+        binder.bind(iWeatherForecastAdapter, WeatherForecastFromJapanMeteorologicalAgencyAdapter)
+
+    def resolve(self, cls):
+        return self.injector.get(cls)
 
 def main():
-    env = Env()
-    weather_forecaster = WeatherForecastFromJapanMeteorologicalAgency(env)
-    notifier = LineNotify(env)
-    weather_forecast_adapter = WeatherForecastFromJapanMeteorologicalAgencyAdapter()
-    notification_adapter = LineNotifyAdapter()
-    weather_forecast_usecase = WeatherForecastUseCase(
-        notifier=notifier,
-        weather_forecaster= weather_forecaster,
-        notification_adapter=notification_adapter,
-        weather_forecast_adapter=weather_forecast_adapter
-    )
+    injector = Dependency()
+    weather_forecast_usecase = injector.resolve(WeatherForecastUseCase)
 
     weather_forecast_usecase.get_and_notify_weather_forecaset()
 

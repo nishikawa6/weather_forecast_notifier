@@ -6,6 +6,7 @@ from usecase.i_notification_adapter import iNotificationAdapter
 from usecase.i_weather_forecast_adapter import iWeatherForecastAdapter
 from usecase.input_data import InputData
 from usecase.output_data import OutputData
+from injector import inject
 
 class iWeatherForecastUseCase(ABC):
     @abstractmethod
@@ -14,6 +15,7 @@ class iWeatherForecastUseCase(ABC):
 
 
 class WeatherForecastUseCase(iWeatherForecastUseCase):
+    @inject
     def __init__(
         self, 
         notifier: iNotifier,
