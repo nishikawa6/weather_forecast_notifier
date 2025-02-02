@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from entity.i_notifier import iNotifier
 from entity.i_weather_forecaster import iWeatherForecaster
 from entity.forecast_data import ForecastData
@@ -8,13 +7,8 @@ from usecase.input_data import InputData
 from usecase.output_data import OutputData
 from injector import inject
 
-class iWeatherForecastUseCase(ABC):
-    @abstractmethod
-    def get_and_notify_weather_forecaset(self):
-        raise NotImplementedError
 
-
-class WeatherForecastUseCase(iWeatherForecastUseCase):
+class WeatherForecastUseCase():
     @inject
     def __init__(
         self, 
