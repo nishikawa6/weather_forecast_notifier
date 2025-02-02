@@ -1,10 +1,14 @@
-from infrastructure.env import iEnv
 from interface_adapter.notification.line_notify_data import LineNotifyData
 
+
 class LineNotify:
-    def __init__(self, env: iEnv):
-        self.__line_notify_api = env.LINE_NOTIFY_API
-        self.__line_notify_token = env.LINE_NOTIFY_TOKEN
+    def __init__(self):
+        import os
+        from dotenv import load_dotenv
+
+        load_dotenv(".env")
+        self.__line_notify_api = os.getenv("LINE_NOTIFY_API")
+        self.__line_notify_token = os.getenv("LINE_NOTIFY_TOKEN")
 
     def execute(self, notification_message: LineNotifyData):
         import requests
