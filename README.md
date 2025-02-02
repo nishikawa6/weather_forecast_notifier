@@ -14,41 +14,80 @@
   - レスポンスの"text"の値を取り出す。
 - Line Notifyで通知を送信する機能
 
-
-# 作成した機能（開発後に作成）
-- 環境変数の読み込み機能
-- Line Notifyで通知を送信する機能
-- 気象庁のAPIを叩き、レスポンスを受け取る機能
-- APIのレスポンスから通知メッセージを作成する機能
-
 # 各機能の依存関係
 ```mermaid
 classDiagram
 
-namespace BuisinessRules {
+namespace Entity {
   class iNotifier
-  class iEnv 
-  class iNotificationMessage
-  class iForecaster
+  class ForecastData
+  class iWeatherForecaster
 }
-class WeatherForecast
-<<interface>> iForecaster
 
-class LineNotify
 <<interface>> iNotifier
+<<interface>> iWeatherForecaster
+<<DataStructure>> ForecastData
 
-class Env
-<<interface>> iEnv
-class NotificationMessage
-<<interface>> iNotificationMessage
+namespace UseCase {
+  class InputData
+  class iWeatherForecastAdapter
+  class WeatherForecastUsecase
+  class iNotificationAdapter
+  class OutputData
+}
 
-Env --|> iEnv
-NotificationMessage --|> iNotificationMessage
-LineNotify --|> iNotifier
-WeatherForecast --|> iForecaster
+<<interface>> iWeatherForecastAdapter
+<<interface>> iNotificationAdapter
+<<DataStructure>> InputData
+<<DataStructure>> OutputData
 
-LineNotify --> iEnv
-LineNotify --> iNotificationMessage
-WeatherForecast --> iEnv
-WeatherForecast --> iNotificationMessage
+namespace InterfaceAdapter {
+  class WeatherForecastFromJapanMeteorologicalAgencyAdapter
+  class WeatherForecastFromJapanMeteorologicalAgencyData
+  class LineNotifyAdapter
+  class LineNotifyData
+}
+
+<<DataStructure>> WeatherForecastFromJapanMeteorologicalAgencyData
+<<DataStructure>> LineNotifyData
+
+namespace Infrastructure {
+  class LineNotify
+  class WeatherForecastFromJapanMeteorologicalAgency
+}
+
+
+
+%% Entity の継承関係
+iNotifier --|> LineNotify
+iWeatherForecaster --|> WeatherForecastFromJapanMeteorologicalAgency
+
+%% Interface Adapter の継承関係
+iWeatherForecastAdapter --|> WeatherForecastFromJapanMeteorologicalAgencyAdapter
+iNotificationAdapter --|> LineNotifyAdapter
+
+
+
+%% use case と entity の依存関係
+WeatherForecastUsecase --> iWeatherForecaster
+WeatherForecastUsecase --> iNotifier
+WeatherForecastUsecase --> ForecastData
+
+%% use case 内の依存関係
+WeatherForecastUsecase --> InputData
+WeatherForecastUsecase --> OutputData
+WeatherForecastUsecase --> iWeatherForecastAdapter
+WeatherForecastUsecase --> iNotificationAdapter
+
+%% Interface Adapter 内、およびInterface Adapterと Use case 間の依存関係
+WeatherForecastFromJapanMeteorologicalAgencyAdapter --> InputData
+WeatherForecastFromJapanMeteorologicalAgencyAdapter --> WeatherForecastFromJapanMeteorologicalAgencyData
+
+LineNotifyAdapter --> iNotificationAdapter
+LineNotifyAdapter --> LineNotifyData
+
+%% Interface Adapter と Infrastructure 間の依存関係
+LineNotify --> LineNotifyData
+WeatherForecastFromJapanMeteorologicalAgency --> WeatherForecastFromJapanMeteorologicalAgencyData
+
 ```
