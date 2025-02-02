@@ -2,5 +2,5 @@ from dataclasses import dataclass
 
 
 @dataclass
-class NotificationData:
+class LineNotifyData:
     notification_message: str

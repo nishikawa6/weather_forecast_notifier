@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class FetchData:
+class WeatherForecastFromJapanMeteorologicalAgencyData:
     publishingOffice: str
     reportDatetime: str
     targetArea: str

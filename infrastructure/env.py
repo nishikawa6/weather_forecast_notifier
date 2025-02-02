@@ -1,15 +1,15 @@
-from abc import ABC, abstractclassmethod
+from abc import ABC, abstractmethod
 
 class iEnv(ABC):
-    @abstractclassmethod
+    @abstractmethod
     def LINE_NOTIFY_TOKEN(self):
         pass
 
-    @abstractclassmethod
+    @abstractmethod
     def LINE_NOTIFY_API(self):
         pass
 
-    @abstractclassmethod
+    @abstractmethod
     def WEATHER_FORECAST_API(self):
         pass
 

@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from entity.forecast_data import ForecastData
-from usecase.output_data import OutputData
+from usecase.input_data import InputData
 
-class iNotificationAdapter(ABC):
+class iWeatherForecastAdapter(ABC):
     @abstractmethod
-    def execute(self, forecast_data: OutputData):
+    def execute(self, raw_input_data) -> InputData:
         raise NotImplementedError
