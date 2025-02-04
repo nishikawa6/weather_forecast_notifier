@@ -19,25 +19,15 @@
 classDiagram 
 
 namespace Entity {
-  class iNotifier {
-    execute(notification_message)
-  }
   class ForecastData 
-  class iWeatherForecaster {
-    execute()
-  }
 }
 
-<<interface>> iNotifier
-<<interface>> iWeatherForecaster
 <<DataStructure>> ForecastData
 
 namespace UseCase {
   class InputData
-  class iWeatherForecastAdapter {
-    execute(raw_input_data) : InputData
-  }
-  class WeatherForecastUsecase {
+  class WeatherForecastUsecase
+  class WeatherForecastInteractor {
     get_and_notify_weather_forecast()
     input_data2forecast_data(inputdata: InputData): ForecastData
     forecast_data2output_data(forecast_data: ForecastData): OutputData
@@ -48,7 +38,7 @@ namespace UseCase {
   class OutputData
 }
 
-<<interface>> iWeatherForecastAdapter
+<<interface>> WeatherForecastUsecase
 <<interface>> iNotificationAdapter
 <<DataStructure>> InputData
 <<DataStructure>> OutputData
@@ -75,21 +65,21 @@ LineNotify --|> iNotifier
 WeatherForecastFromJapanMeteorologicalAgency --|> iWeatherForecaster 
 
 %% Interface Adapter の継承関係
-WeatherForecastFromJapanMeteorologicalAgencyAdapter --|> iWeatherForecastAdapter 
+WeahterForecastInteractor --|> WeatherForecastUsecase
 LineNotifyAdapter --|> iNotificationAdapter 
 
 
 
 %% use case と entity の依存関係
-WeatherForecastUsecase --> iWeatherForecaster
-WeatherForecastUsecase --> iNotifier
-WeatherForecastUsecase --> ForecastData
+WeatherForecastInteractor --> iWeatherForecaster
+WeatherForecastInteractor --> iNotifier
+WeatherForecastInteractor --> ForecastData
 
 %% use case 内の依存関係
-WeatherForecastUsecase --> InputData
-WeatherForecastUsecase --> OutputData
-WeatherForecastUsecase --> iWeatherForecastAdapter
-WeatherForecastUsecase --> iNotificationAdapter
+WeatherForecastInteractor --> InputData
+WeatherForecastInteractor --> OutputData
+WeatherForecastInteractor --> iWeatherForecastAdapter
+WeatherForecastInteractor --> iNotificationAdapter
 
 %% Interface Adapter 内、およびInterface Adapterと Use case 間の依存関係
 WeatherForecastFromJapanMeteorologicalAgencyAdapter --> InputData
