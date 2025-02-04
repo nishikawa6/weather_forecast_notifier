@@ -11,8 +11,6 @@ class UsecaseDependency:
     @classmethod
     def config(cls, binder):
         binder.bind(WeatherForecastUseCase, WeatherForecastInteractor)
-        binder.bind(iNotifier, LineNotify)
-        binder.bind(iWeatherForecaster, WeatherForecastFromJapanMeteorologicalAgency)
         binder.bind(iNotificationPresenter, LineNotifyPresenter)
 
     def resolve(self, cls):

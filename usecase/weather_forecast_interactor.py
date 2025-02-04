@@ -1,4 +1,3 @@
-from entity.i_notifier import iNotifier
 from entity.forecast_data import ForecastData
 from usecase.i_notification_presenter import iNotificationPresenter
 from usecase.input_data import InputData
@@ -11,10 +10,8 @@ class WeatherForecastInteractor(WeatherForecastUseCase):
     @inject
     def __init__(
         self, 
-        notifier: iNotifier,
         notification_presenter: iNotificationPresenter,
         ) -> None:
-        self.notifier = notifier
         self.notification_presenter = notification_presenter
 
     def get_and_notify_weather_forecaset(self, input_data:InputData):
